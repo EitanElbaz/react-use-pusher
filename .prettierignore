@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.husky/
+.pnpm-store/
+.next/
+LICENSE.md
+CHANGELOG.md
+README.md
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
