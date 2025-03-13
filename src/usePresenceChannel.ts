@@ -117,7 +117,7 @@ const reducerAtom = atomWithReducer<
 >({ channelMembers: {} }, membersReducer);
 
 export function usePresenceChannel<T extends WebsocketsMemberUserInfo = WebsocketsMemberUserInfo>(
-  channelName: string,
+  channelName: `presence-${string}`,
 ) {
   if (channelName) {
     invariant(
