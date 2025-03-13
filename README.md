@@ -31,9 +31,8 @@ import { PusherProvider } from 'react-use-pusher';
 
 const App = () => {
   <PusherProvider
-    clientKey={process.env.CLIENT_KEY} // get this from the admin app
+    clientKey={process.env.CLIENT_KEY}
     cluser="eu"
-      
     // you can set this to false if you're waiting on some state to load
     ready
     // if you're using presence channels

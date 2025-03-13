@@ -1,6 +1,7 @@
 export * from './ChannelsContext';
 export * from './usePusher';
 export * from './useChannel';
+export * from './usePrivateChannel';
 export * from './usePresenceChannel';
 export * from './useEvent';
 export * from './useClientTrigger';
