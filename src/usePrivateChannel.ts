@@ -1,8 +1,8 @@
 import invariant from 'invariant';
-import type { Channel } from 'pusher-js';
+import type PrivateChannel from 'pusher-js/types/src/core/channels/private_channel';
 import { useChannel } from './useChannel';
 
-export function usePrivateChannel<T extends Channel = Channel>(
+export function usePrivateChannel<T extends PrivateChannel = PrivateChannel>(
   channelName: `private-${string}` | undefined,
 ) {
   if (channelName) {

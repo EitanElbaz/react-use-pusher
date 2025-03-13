@@ -33,7 +33,9 @@ const App = () => {
   <PusherProvider
     clientKey={process.env.CLIENT_KEY}
     cluser="eu"
+    
     // you can set this to false if you're waiting on some state to load
+    // and want to wait for it before the WS connection happens
     ready
     // if you're using presence channels
     // see: https://pusher.com/docs/channels/server_api/authorizing-users/#implementing-the-authorization-endpoint-for-a-presence-channel 
@@ -55,8 +57,21 @@ const App = () => {
 Use this hook to subscribe to a channel.
 
 ```tsx
-// returns channel instance.
+// returns Channel instance.
 const channel = useChannel('channel-name');
+```
+
+## `usePrivateChannel`
+
+Use this hook to subscribe to a private channel.
+
+If you're using presence channels, you must provide an auth endpoint.
+
+See the [Pusher Docs](https://pusher.com/docs/channels/server_api/authorizing-users/#implementing-the-authorization-endpoint-for-a-presence-channel) for examples for how the endpoint is implemented.
+
+```tsx
+// returns PrivateChannel instance.
+const channel = usePrivateChannel('private-name');
 ```
 
 ## `usePresenceChannel`
