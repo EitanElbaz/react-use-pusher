@@ -12,6 +12,8 @@
 - [`useEvent`](#useevent)
 - [`useClientTrigger`](#useclienttrigger)
 - [`usePusher`](#usepusher)
+- [`NextJS`](#nextjs)
+  - [`NextJS Authentication`](#nextjs-authentication-endpoint-example)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,6 +33,9 @@ const App = () => {
   <PusherProvider
     clientKey={process.env.CLIENT_KEY} // get this from the admin app
     cluser="eu"
+      
+    // you can set this to false if you're waiting on some state to load
+    ready
     // if you're using presence channels
     // see: https://pusher.com/docs/channels/server_api/authorizing-users/#implementing-the-authorization-endpoint-for-a-presence-channel 
     channelAuthEndpoint="/api/auth"
@@ -126,4 +131,98 @@ const Example = () => {
 
   return null;
 };
+```
+
+## NextJS
+
+You cannot import `react-use-pusher` in a file which will be included in the server build.
+
+You can use dynamic imports in the pages router to avoid files being included in server builds.
+
+```tsx
+// your page.tsx file
+
+import dynamic from 'next/dynamic';
+
+const MyPageComponent = dynamic(() => import('../components/MyPageComponent'), {
+    ssr: false,
+});
+
+export default function Home() {
+  return (
+    <MyPageComponent />
+  );
+}
+
+```
+
+```tsx
+// MyPageComponent.tsx
+
+const MyPageComponent: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <PusherProvider
+      cluster="eu"
+      clientKey="some_key"
+      ready
+      channelAuthEndpoint="/api/auth"
+    >
+      // components
+      // you can use all the hooks in components which go here    
+    </PusherProvider>
+  );
+};
+
+export default MyPageComponent;
+```
+
+### NextJS Authentication endpoint example
+
+```bash
+  npm install pusher
+```
+
+```ts
+// pages/api/auth.ts
+
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type { NextApiRequest, NextApiResponse } from 'next';
+import Pusher from 'pusher';
+
+type Modify<T, K extends keyof T, U> = Omit<T, K> & {
+    [P in keyof Pick<T, K>]: U;
+};
+
+type AuthBody = {
+    socket_id: string;
+    channel_name: string;
+    [key: string]: unknown;
+};
+
+const pusher = new Pusher({
+    appId: process.env.APP_ID,
+    key: process.env.APP_KEY,
+    secret: process.env.APP_SECRET,
+    cluster: 'eu',
+});
+
+export default function handler(
+    req: Modify<NextApiRequest, 'body', AuthBody>,
+    res: NextApiResponse,
+) {
+    const { socket_id, channel_name, ...rest } = req.body;
+
+    const channelData = {
+        // user_id is mandatory according to pusher docs
+        user_id: 'the user id',
+        user_info: {
+            // name within user_info is mandatory
+            name: 'the authenticated user name',
+            // you can put whatever you like here. It'll appear in the presence channel member's data
+            ...rest,
+        },
+    };
+    res.status(200).json(pusher.authorizeChannel(socket_id, channel_name, channelData));
+}
+
 ```
