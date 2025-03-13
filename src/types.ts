@@ -19,7 +19,7 @@ export interface PusherProviderProps {
   clientKey: string;
   cluster: string;
 
-  additionalUserInfo?: Record<string, unknown>;
+  additionalChannelAuthParams?: Record<string, unknown>;
 
   channelAuthEndpoint?: string;
 

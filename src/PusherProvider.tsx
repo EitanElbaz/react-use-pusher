@@ -8,7 +8,7 @@ import { PusherContext } from './PusherContext';
 
 export const PusherProvider: React.FC<PusherProviderProps> = ({
   options,
-  additionalUserInfo,
+  additionalChannelAuthParams,
   clientKey,
   cluster,
   channelAuthEndpoint,
@@ -24,12 +24,12 @@ export const PusherProvider: React.FC<PusherProviderProps> = ({
         endpoint: channelAuthEndpoint ?? '',
         transport: 'ajax',
         params: {
-          ...(additionalUserInfo ?? {}),
+          ...(additionalChannelAuthParams ?? {}),
         },
       },
       ...options,
     }),
-    [cluster, channelAuthEndpoint, additionalUserInfo, options],
+    [cluster, channelAuthEndpoint, additionalChannelAuthParams, options],
   );
 
   const prevConfig = useRef<Options>(null);
