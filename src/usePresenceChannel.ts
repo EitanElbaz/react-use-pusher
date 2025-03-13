@@ -51,7 +51,13 @@ function membersReducer<T extends WebsocketsMemberUserInfo>(
           ...state.channelMembers,
           [action.payload.channelName]: {
             me: action.payload.members.me.info,
-            members: Object.values(action.payload.members.members),
+            members: Object.entries(action.payload.members.members).reduce<T[]>(
+              (members, [memberId, member]) => [
+                ...members,
+                { id: memberId, ...(member as object) } as T,
+              ],
+              [],
+            ),
           } as ChannelMembersInfo,
         },
       };
@@ -64,7 +70,10 @@ function membersReducer<T extends WebsocketsMemberUserInfo>(
         }),
       };
       if (newChannelData.members.find(mem => mem.id === action.payload.member.id) == null)
-        newChannelData.members = [...newChannelData.members, action.payload.member.info];
+        newChannelData.members = [
+          ...newChannelData.members,
+          { ...action.payload.member.info, id: action.payload.member.id },
+        ];
 
       return {
         ...state,
