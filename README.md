@@ -32,6 +32,7 @@ const App = () => {
     clientKey={process.env.CLIENT_KEY} // get this from the admin app
     cluser="eu"
     // if you're using presence channels
+    // see: https://pusher.com/docs/channels/server_api/authorizing-users/#implementing-the-authorization-endpoint-for-a-presence-channel 
     channelAuthEndpoint="/api/auth"
     // TIP: if you're hosting your own websocket server via something like Soketi
     // you can pass additional pusher options for the websocket connection via the prop bellow
@@ -57,6 +58,10 @@ const channel = useChannel('channel-name');
 ## `usePresenceChannel`
 
 Presence channels allow you to see who else is connected
+
+If you're using presence channels, you must provide an auth endpoint.
+
+See the [Pusher Docs](https://pusher.com/docs/channels/server_api/authorizing-users/#implementing-the-authorization-endpoint-for-a-presence-channel) for examples for how the endpoint is implemented.
 
 ```tsx
 const Example = () => {
