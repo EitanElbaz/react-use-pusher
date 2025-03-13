@@ -11,6 +11,7 @@ export default defineConfig({
     minify: true,
     reportCompressedSize: true,
     lib: {
+      name: 'react-use-pusher',
       entry: {
         main: path.resolve('src/index.ts'),
       },
@@ -18,7 +19,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['react', 'pusher-js'],
+      external: ['react'],
       output: {
         globals: {
           react: 'React',
