@@ -8,6 +8,7 @@
 - [Install](#install)
 - [Usage](#usage)
 - [`useChannel`](#usechannel)
+- [`usePrivateChannel`](#useprivatechannel)
 - [`usePresenceChannel`](#usepresencechannel)
 - [`useEvent`](#useevent)
 - [`useClientTrigger`](#useclienttrigger)
