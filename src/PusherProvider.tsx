@@ -1,4 +1,4 @@
-import Pusher from 'pusher-js';
+import type Pusher from 'pusher-js';
 import type { Options } from 'pusher-js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import equal from 'fast-deep-equal';
@@ -43,7 +43,17 @@ export const PusherProvider: React.FC<PusherProviderProps> = ({
 
         prevConfig.current = pusherOptions;
 
-        setClient(new Pusher(clientKey, pusherOptions));
+        import('pusher-js')
+          .then(Pusher => {
+            try {
+              setClient(new Pusher.default(clientKey, pusherOptions));
+            } catch {
+              console.error('failed to initialise Pusher!');
+            }
+          })
+          .catch(() => {
+            console.error('failed to load Pusher!');
+          });
       }
     },
     [client, clientKey, pusherOptions, ready],
