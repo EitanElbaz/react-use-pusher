@@ -33,7 +33,7 @@ import { PusherProvider } from 'react-use-pusher';
 const App = () => {
   <PusherProvider
     clientKey={process.env.CLIENT_KEY}
-    cluser="eu"
+    cluster="eu"
     
     // you can set this to false if you're waiting on some state to load
     // and want to wait for it before the WS connection happens
