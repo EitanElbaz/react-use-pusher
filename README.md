@@ -13,8 +13,7 @@
 - [`useEvent`](#useevent)
 - [`useClientTrigger`](#useclienttrigger)
 - [`usePusher`](#usepusher)
-- [`NextJS`](#nextjs)
-  - [`NextJS Authentication`](#nextjs-authentication-endpoint-example)
+- [`Authentication Example`](#authentication-endpoint-example)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -148,50 +147,9 @@ const Example = () => {
 };
 ```
 
-## NextJS
+### Authentication endpoint example
 
-You cannot import `react-use-pusher` in a file which will be included in the server build.
-
-You can use dynamic imports in the pages router to avoid files being included in server builds.
-
-```tsx
-// your page.tsx file
-
-import dynamic from 'next/dynamic';
-
-const MyPageComponent = dynamic(() => import('../components/MyPageComponent'), {
-    ssr: false,
-});
-
-export default function Home() {
-  return (
-    <MyPageComponent />
-  );
-}
-
-```
-
-```tsx
-// MyPageComponent.tsx
-
-const MyPageComponent: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <PusherProvider
-      cluster="eu"
-      clientKey="some_key"
-      ready
-      channelAuthEndpoint="/api/auth"
-    >
-      // components
-      // you can use all the hooks in components which go here    
-    </PusherProvider>
-  );
-};
-
-export default MyPageComponent;
-```
-
-### NextJS Authentication endpoint example
+I'm using a NextJS api endpoint page as an example.
 
 ```bash
   npm install pusher
